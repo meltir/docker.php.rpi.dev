@@ -13,9 +13,10 @@ RUN set -xs \
 	&& printf "\n" | pecl install memcached \
 	&& docker-php-ext-enable memcached \
 	&& apk del .phpize-deps \
-	&& apk del .build-deps \
-	&& echo "session.save_handler = memcached" >>  /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini \
-	&& echo "session.save_path = \"memcached:11211\"" >>  /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini
+	&& apk del .build-deps
+#	\
+#	&& echo "session.save_handler = memcached" >>  /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini \
+#	&& echo "session.save_path = \"memcached:11211\"" >>  /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini
 	
 	
 RUN set -xs \
@@ -47,6 +48,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #RUN set -xs \
 #	&& composer require symfony/requirements-checker
 
-WORKDIR /var/www/app
+WORKDIR /var/www
 	
 EXPOSE 9001
