@@ -1,9 +1,11 @@
 # docker.php.rpi.dev
 Development php-fpm image for a rpi
 
-Latest stable php-fpm from alpine, with xdebug, memcached, pdo_mysql, zip, intl extensions enabled.
+Php-fpm 7.3 from alpine, with xdebug, pdo_mysql, zip, intl extensions enabled.
 
 Includes composer and git.
+
+Global composer packages https://github.com/FriendsOfPHP/PHP-CS-Fixer, https://github.com/infection/infection are installed by default and available from the command line.
 
 Ready to run symfony flex applications.
 
