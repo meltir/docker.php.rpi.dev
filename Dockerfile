@@ -25,9 +25,10 @@ RUN set -xs \
 COPY docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/
 	
 RUN set -xs \
-	&& apk add --no-cache libzip-dev libzip icu-dev icu \
-	&& docker-php-ext-install pdo pdo_mysql zip intl \
-	&& apk del libzip-dev icu-dev
+	&& apk add --no-cache libzip icu libxslt libxml2 libpng \
+	&& apk add --no-cache --virtual .ext-deps libzip-dev icu-dev libxslt-dev libxml2-dev libpng-dev \
+	&& docker-php-ext-install pdo pdo_mysql zip intl xsl soap gd \
+	&& apk del .ext-deps
 
 RUN docker-php-ext-enable opcache
 
@@ -35,6 +36,12 @@ RUN set -xs \
     && apk add --no-cache git
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN wget http://www.phpdoc.org/phpDocumentor.phar -O /usr/local/bin/phpDocumentor.phar \
+    && chmod 755 /usr/local/bin/phpDocumentor.phar
+
+RUN wget https://github.com/phpstan/phpstan/releases/download/0.11.13/phpstan.phar -O /usr/local/bin/phpstan.phar \
+    && chmod 755 /usr/local/bin/phpstan.phar
 
 RUN composer global require infection/infection friendsofphp/php-cs-fixer
 
